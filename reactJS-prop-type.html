@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script> <!-- 개발에서만 prop-type이 적용되고 있음 -->
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+  <script type="text/babel"> 
+    
+    /*
+       목표
+      Prop Types을 지정해서 적정한 타입으로 넘어올수 있도록 제한한다. 유효성 검사에 유용
+      
+      TIP
+      스타일에서 프로퍼티와 같은 prop이 넘어오면 하나로 줄여서 쓸 수 있다.
+      넘겨주는 props 명 동일하세 세팅했는지 주의 할것 
+      fontSize = 16 과 같이 기본값 세팅도 가능
+
+      결론
+
+    */
+
+    function Btn ({ text, fontSize = 16 }) {
+      return (
+        <button 
+          style={{
+            backgroundColor: "tomato",
+            color: "white",
+            padding: "10px 20px",
+            border: 0,
+            borderRadius: 10,
+            fontSize // fontSize: fontSize 줄인 버전
+          }}
+        >
+          {text}
+        </button>
+      );
+    }
+    // 리액트에게 props에 세팅하려는 타입을 알려준다.
+    // 유효성 체크 시 사용하면 좋을듯
+    // console 창에 warning으로 표시됨
+    Btn.propTypes = {
+      text: PropTypes.string.isRequired,
+      fontSize: PropTypes.number
+    }
+    function App() {
+      return (
+        <div>
+          <Btn text="Save Changes" fontSize={18} />
+          <Btn text="Continue" />
+        </div>
+      );
+    }
+    const root = document.getElementById('root');
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

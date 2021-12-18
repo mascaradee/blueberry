@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel"> 
+    
+    /*
+       목표
+       1. 분을 입력해서 시로 변환
+       2. 리셋버튼으로 초기화
+       3. 플립버튼으로 input 입력불가 상태 전환 (default = 시의  input 입력불가)
+       3. 시를 분으로 변환
+    */
+
+    //js에서 class, for는 예약어이기 때문에 JSX는 class - className으로 for- htmlFor로 써야 제대로 변환이 된다.
+    function App() {
+      const [amount, setAmount] = React.useState(0);
+      const [inverted, setInverted] = React.useState(false);
+      const onChange = (event) => {
+        // console.log(event.target.value);
+        
+        // 입력된 값으로 변환
+        setAmount(event.target.value);
+      };
+      const reset = () => setAmount(0);
+      const onInvert = () => {
+        reset();
+        setInverted((current) => !current);
+      };
+      return (
+        <div>
+          <h1 className="hi">Super Converter</h1> 
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input 
+              value={inverted ? amount * 60 : amount} 
+              id="minutes" 
+              placeholder="Minutes" 
+              type="number" 
+              onChange={onChange}
+              // disabled={inverted === true} // JS
+              disabled={inverted} // JSX
+            />    
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input 
+              value={inverted ? amount : Math.round(amount / 60 )} 
+              id="hours" 
+              placeholder="Hours" 
+              type="number" 
+              // disabled={inverted === false}
+              disabled={!inverted}
+              onChange={onChange}
+            />   
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onInvert}>{inverted ? "Invert" : "Turn back"}</button>
+        </div>
+      );
+    }
+    const root = document.getElementById('root');
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

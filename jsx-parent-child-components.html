@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel"> 
+    
+    /*
+       목표
+       1. 메인 컴포넌트에 서브 컴포넌트를 넣는다.
+       2. 셀렉트박스를 이용해서 여러 컴포넌트를 선택한다
+
+
+      TIP
+      컴퍼넌트 안에 또 다른 컴퍼넌트를 넣을 수 있다. 
+      html 사이에 {} 를 이용해 스크립트를 추가할 수 있다. 
+
+      결론
+      useState로 값이 변화하는 것을 감지해 자동으로 렌더링을 다시 해 줄 수 있다. 
+    */
+    function MinutesToHours() {
+      const [amount, setAmount] = React.useState(0);
+      const [inverted, setInverted] = React.useState(false);
+      const onChange = (event) => {
+        // console.log(event.target.value);
+        
+        // 입력된 값으로 변환
+        setAmount(event.target.value);
+      };
+      const reset = () => setAmount(0);
+      const onInvert = () => {
+        reset();
+        setInverted((current) => !current);
+      };
+      return (
+        <div>
+          <h1 className="hi">Super Converter</h1> 
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input 
+              value={inverted ? amount * 60 : amount} 
+              id="minutes" 
+              placeholder="Minutes" 
+              type="number" 
+              onChange={onChange}
+              // disabled={inverted === true} // JS
+              disabled={inverted} // JSX
+            />    
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input 
+              value={inverted ? amount : Math.round(amount / 60 )} 
+              id="hours" 
+              placeholder="Hours" 
+              type="number" 
+              // disabled={inverted === false}
+              disabled={!inverted}
+              onChange={onChange}
+            />   
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onInvert}>{inverted ? "Invert" : "Turn back"}</button>
+        </div>
+      );
+    }
+    function KmToMiles() {
+      const [amount, setAmount] = React.useState(0);
+      const [inverted, setInvert] = React.useState(false);
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      }
+      const reset = () => setAmount(0);
+      const onInvert = () => {
+        reset();
+        setInvert((current) => !current)
+      };
+      return (
+        <div>
+          <h1>km to miles</h1>
+          <div>
+            <label htmlFor="Km">Km</label>
+            <input 
+              value={inverted ? amount * 1.609: amount}
+              type="number" 
+              id="Km" 
+              onChange={onChange}
+              disabled={inverted}
+            />
+          </div>
+          <div>
+            <label htmlFor="Miles">Miles</label>
+            <input 
+              value={inverted ? amount: Math.round(amount / 1.609)}
+              type="number" 
+              id="Miles" 
+              onChange={onChange}
+              disabled={!inverted}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onInvert}>Invert</button>
+        </div>
+      );
+    }
+    function App() {
+      const [index, setIndex]= React.useState("xx");
+      const onSelect = (evnet) => {
+        // console.log(event.target.value);
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <h1>Super Converter</h1> 
+          <select value={index} onChange={onSelect}>
+            <option value="XX">Select your units</option>  
+            <option value="0">Minutes & Hours</option>  
+            <option value="1">Km & Miles</option>  
+          </select>
+          <hr />
+          {index === "xx" ? "Please select your units" : null}
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    }
+    const root = document.getElementById('root');
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

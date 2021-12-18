@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel"> 
+    
+    /*
+       목표
+       1. m2을 입력해서 평으로 변환
+       2. 리셋버튼으로 초기화
+       3. 플립버튼으로 input 입력불가 상태 전환 (default = 평의  input 입력불가)
+       3. 평을 m2로 변환
+    */
+
+    function App() {
+      const[amount, setAmount] = React.useState(0);
+      const[flipped, setFlipped] = React.useState(false);
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+      const reset = () => setAmount(0);
+      const flip = () => {
+        reset();
+        setFlipped(!flipped)
+      };
+
+      return (
+        <div>
+          <h1 className="hi">Super Converter2</h1> 
+          <div>
+            <label htmlFor="m2">m2</label>
+            <input 
+              value={flipped ? amount * 3.3058 : amount}
+              id="m2" 
+              placeholder="m2" 
+              type="number"
+              onChange={onChange}
+              disabled={flipped}
+            />
+          </div>
+          <div>
+            <label htmlFor="pyung">평</label>
+            <input 
+              value={ flipped ? amount : Math.round(amount/ 3.3058)}
+              id="pyung" 
+              placeholder="평" 
+              type="number"
+              disabled={!flipped}
+              onChange={onChange}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={flip}>Flip</button>
+        </div>
+      );
+    }
+    const root = document.getElementById('root');
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

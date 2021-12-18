@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel"> 
+    
+    const root = document.getElementById('root');
+    
+    // 함수로 만들어서 반복적인 걸 실행하지만 render()를 호출하는 게 반복된다는 단점
+    let counter = 0;
+    function countUp () {
+      counter = counter + 1;
+      //ReactDOM.render(<Container />, root); // 중복코드는 재사용을 위해 함수로 만든다.
+      render();
+    }
+    function render() {
+      ReactDOM.render(<Container />, root);
+    }
+    const root = document.getElementById('root');
+    const Container = () => (
+      <div>
+        <h3>Total clicks: {counter}</h3> <!-- 변수을 JSK에 전달하고자 하면 {변수명} 으로 하면 됨. 여기만 업데이트 된다!!!-->
+        <button onClick={countUp}>Click me</button>
+      </div>
+    );
+    //ReactDOM.render(<Container />, root); // counter = 0 하고 렌더링 끝
+    render();
+  </script>
+</html>
